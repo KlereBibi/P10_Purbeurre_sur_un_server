@@ -14,22 +14,27 @@ from pathlib import Path
 import os
 import dj_database_url
 import django_heroku
+from dotenv import load_dotenv
+import json
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(dotenv_path=BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '=@4&4ryr+ot3s^cy6kf1raw1ma^)8uq&y7hwkps)e_q+y#('
-
+#SECRET_KEY = '=@4&4ryr+ot3s^cy6kf1raw1ma^)8uq&y7hwkps)e_q+y#('
+SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'a-good-health.herokuapp.com','104.248.122.136']
-
+#ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'a-good-health.herokuapp.com','104.248.122.136']
+ALLOWED_HOSTS = json.loads(os.getenv('ALLOWED_HOSTS'))
+CSRF_TRUSTED_ORIGINS = json.loads(os.getenv('CSRF_HOSTS'))
 
 # Application definition
 
@@ -79,19 +84,28 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'off_application',
+#         'USER': 'postgres',
+#         'PASSWORD': '184300',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'purbeurre',
-        'USER': 'claire',
-        'PASSWORD': 'toto',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': os.getenv('DBENGINE'),
+        'NAME': os.getenv('DBNAME'),
+        'USER': os.getenv('DBUSER'),
+        'PASSWORD': os.getenv('DBPASSWORD'),
+        'HOST': os.getenv('DBHOST'),
+        'PORT': os.getenv('DBPORT'),
     }
 }
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
-
+if 'test' in sys.argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -142,42 +156,3 @@ LOGIN_URL = "authentification:login"
 LOGIN_REDIRECT_URL = "products:home"
 
 django_heroku.settings(locals())
-LOGGING = {
-
-     'version': 1,
-
-     'disable_existing_loggers': False,
-
-     'handlers': {
-
-         'console': {
-
-             'class': 'logging.StreamHandler',
-
-         },
-
-        'file': {
-
-            'level': 'DEBUG',
-
-            'class': 'logging.FileHandler',
-
-            'filename': 'log.django',
-
-        },
-
-     },
-
-     'loggers': {
-
-         'django': {
-
-             'handlers': ['console','file'],
-
-             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-
-         },
-
-     },
-
-}
