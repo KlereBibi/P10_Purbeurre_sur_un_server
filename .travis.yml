@@ -5,14 +5,11 @@ python:
 before_script:
   - pip install -r requirements.txt
 
-env: DJANGO_SETTINGS_MODULE="purbeurre.settings"
+env:
+  - SECRET_KEY='TEST'
 
 services:
   - postgresql
 
 script:
-  - ./manage.py test
-
-  branches:
-    only:
-      - master
+  - python manage.py test
