@@ -12,11 +12,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 import django_heroku
 from dotenv import load_dotenv
 import json
 import sys
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,13 +28,12 @@ load_dotenv(dotenv_path=BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = '=@4&4ryr+ot3s^cy6kf1raw1ma^)8uq&y7hwkps)e_q+y#('
 SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-#ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'a-good-health.herokuapp.com','104.248.122.136']
 ALLOWED_HOSTS = json.loads(os.getenv('ALLOWED_HOSTS'))
+#ALLOWED_HOSTS = ["127.0.0.1"]
 CSRF_TRUSTED_ORIGINS = json.loads(os.getenv('CSRF_HOSTS'))
 
 # Application definition
@@ -141,7 +141,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static'
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -155,4 +155,23 @@ AUTHENTICATION_BACKENDS = ['authentification.backend.EmailBackend']
 LOGIN_URL = "authentification:login"
 LOGIN_REDIRECT_URL = "products:home"
 
-django_heroku.settings(locals())
+sentry_sdk.init(
+    dsn="https://0484f39c340142e08b7b141f8f4cd447@o1379337.ingest.sentry.io/6691955",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production,
+    traces_sample_rate=1,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True,
+
+    # By default the SDK will try to use the SENTRY_RELEASE
+    # environment variable, or infer a git commit
+    # SHA as release, however you may want to set
+    # something more human-readable.
+    # release="myapp@1.0.0",
+)
+
