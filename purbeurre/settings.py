@@ -94,18 +94,18 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 #         'PORT': '5432',
 #     }
 # }
-# DATABASES = {
-#      'default': {
-#          'ENGINE': os.getenv('DBENGINE'),
-#          'NAME': os.getenv('DBNAME'),
-#          'USER': os.getenv('DBUSER'),
-#          'PASSWORD': os.getenv('DBPASSWORD'),
-#          'HOST': os.getenv('DBHOST'),
-#          'PORT': os.getenv('DBPORT'),
-#      }
-# }
-# if 'test' in sys.argv:
-#     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+DATABASES = {
+    'default': {
+          'ENGINE': os.getenv('DBENGINE'),
+          'NAME': os.getenv('DBNAME'),
+          'USER': os.getenv('DBUSER'),
+          'PASSWORD': os.getenv('DBPASSWORD'),
+          'HOST': os.getenv('DBHOST'),
+          'PORT': os.getenv('DBPORT'),
+      }
+ }
+if 'test' in sys.argv:
+     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 
 # Password validation
