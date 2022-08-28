@@ -7,14 +7,10 @@ before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
 
 env:
-  - SECRET_KEY='TEST'
+  - DJANGO_SETTINGS_MODULE="purbeurre"
 
 services:
   - postgresql
-
-test:
-  adapter: postgresql
-  database: travis_ci_test
 
 script:
   - python manage.py test
