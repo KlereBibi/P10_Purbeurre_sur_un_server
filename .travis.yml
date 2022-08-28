@@ -8,12 +8,12 @@ before_script:
   - echo DEBUG=True >> .env
   - echo ALLOWED_HOSTS="[\"127.0.0.1:8000\"]" >> .env
   - echo CSRF_HOSTS="[\"http://127.0.0.1/\"]" >> .env
-#  - echo DBNAME='' >> .env
-#  - echo DBUSER=''
-#  - echo DBPASSWORD=''
-#  - echo DBHOST=''
-#  - echo DBPORT=5432
-#  - echo DBENGINE='django.db.backends.sqlite3''
+  - echo DBNAME='' >> .env
+  - echo DBUSER=''
+  - echo DBPASSWORD=''
+  - echo DBHOST=''
+  - echo DBPORT=5432
+  - echo DBENGINE='django.db.backends.sqlite3''
   - echo SECRET_KEY='test' >> .env
 
 services:
