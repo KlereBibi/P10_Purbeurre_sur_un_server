@@ -12,5 +12,9 @@ env:
 services:
   - postgresql
 
+test:
+  adapter: postgresql
+  database: travis_ci_test
+
 script:
   - python manage.py test
