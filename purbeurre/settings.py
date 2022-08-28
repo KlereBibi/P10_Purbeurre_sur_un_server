@@ -29,8 +29,10 @@ load_dotenv(dotenv_path=BASE_DIR / '.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'test'
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = True
 
 #ALLOWED_HOSTS = json.loads(os.getenv('ALLOWED_HOSTS'))
 ALLOWED_HOSTS = ["127.0.0.1"]
