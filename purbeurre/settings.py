@@ -28,13 +28,13 @@ load_dotenv(dotenv_path=BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = os.getenv('DEBUG') == 'True'
 
-#ALLOWED_HOSTS = json.loads(os.getenv('ALLOWED_HOSTS'))
+ALLOWED_HOSTS = json.loads(os.getenv('ALLOWED_HOSTS'))
 
-#CSRF_TRUSTED_ORIGINS = json.loads(os.getenv('CSRF_HOSTS'))
+CSRF_TRUSTED_ORIGINS = json.loads(os.getenv('CSRF_HOSTS'))
 
 # Application definition
 
@@ -96,17 +96,16 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 # }
 DATABASES = {
     'default': {
-          'ENGINE': os.getenv('DBENGINE'),
-          'NAME': os.getenv('DBNAME'),
-          'USER': os.getenv('DBUSER'),
-          'PASSWORD': os.getenv('DBPASSWORD'),
-          'HOST': os.getenv('DBHOST'),
-          'PORT': os.getenv('DBPORT'),
-      }
- }
+         'ENGINE': os.getenv('DBENGINE'),
+         'NAME': os.getenv('DBNAME'),
+         'USER': os.getenv('DBUSER'),
+         'PASSWORD': os.getenv('DBPASSWORD'),
+         'HOST': os.getenv('DBHOST'),
+         'PORT': os.getenv('DBPORT'),
+    }
+}
 if 'test' in sys.argv:
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
