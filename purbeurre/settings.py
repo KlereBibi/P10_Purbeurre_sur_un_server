@@ -32,7 +32,7 @@ SECRET_KEY = os.getenv(r'SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv(r'DEBUG') == 'True'
 
-ALLOWED_HOSTS = json.loads(os.getenv(r'ALLOWED_HOSTS'))
+ALLOWED_HOSTS = json.loads(os.getenv('ALLOWED_HOSTS'))
 
 CSRF_TRUSTED_ORIGINS = json.loads(os.getenv('CSRF_HOSTS'))
 
